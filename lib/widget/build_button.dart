@@ -18,14 +18,32 @@ class BuildButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final defaultBgColor = isDarkMode ? Colors.grey.shade800 : Colors.blueGrey.shade100;
-    final buttonBgColor = color ?? defaultBgColor;
-    final buttonTextColor = color == null ? (isDarkMode ? Colors.white : Colors.black) : Colors.white;
 
-    final buttonSize = 75.w;
-    final iconSize = 25.sp;
-    final fontSize = 25.sp;
-    final padding = 5.w;
+    final defaultBgColor = isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300;
+
+    final buttonBgColor = color ?? defaultBgColor;
+
+    final buttonTextColor = (color == Colors.white)
+        ? Colors.red
+        : (color == Colors.red)
+        ? Colors.white
+        : (color == null
+        ? (isDarkMode ? Colors.white : Colors.black)
+        : Colors.white);
+
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
+    double size;
+    if (isLandscape) {
+      size = (MediaQuery.of(context).size.height) / 7.5;
+    } else {
+      size = 75.w;
+    }
+
+    final buttonSize = size;
+    final fontSize = isLandscape ? 14.sp : 25.sp;
+    final iconSize = isLandscape ? 16.sp : 25.sp;
+    final padding = isLandscape ? 2.w : 5.w;
 
     return Expanded(
       child: Padding(
