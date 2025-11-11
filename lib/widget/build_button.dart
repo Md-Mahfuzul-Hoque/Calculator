@@ -35,7 +35,7 @@ class BuildButton extends StatelessWidget {
 
     double size;
     if (isLandscape) {
-      size = (MediaQuery.of(context).size.height) / 6.2;
+      size = (MediaQuery.of(context).size.height) / 6.5;
     } else {
       size = 75.w;
     }
