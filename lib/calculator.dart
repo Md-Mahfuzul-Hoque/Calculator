@@ -151,9 +151,54 @@ class _CalculatorState extends State<Calculator> {
 
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
-    return Scaffold(
-      backgroundColor: bgColor,
-      body: SafeArea(
+    Widget buildCalculatorLayout() {
+      final buttonGrid = Column(
+        children: [
+          Row(
+            children: [
+              BuildButton(onclick: () => buttonPress('AC'), text: 'AC', color: funcButtonColor, isLandscape: isLandscape),
+              BuildButton(onclick: () => buttonPress('back'), text: '', icon: Icons.backspace, color: funcButtonColor, isLandscape: isLandscape),
+              BuildButton(onclick: () => buttonPress('+/-'), text: '+/-', color: funcButtonColor, isLandscape: isLandscape),
+              BuildButton(onclick: () => buttonPress('÷'), text: '÷', color: operatorButtonColor, isLandscape: isLandscape),
+            ],
+          ),
+          Row(
+            children: [
+              BuildButton(onclick: () => buttonPress('7'), text: '7', isLandscape: isLandscape),
+              BuildButton(onclick: () => buttonPress('8'), text: '8', isLandscape: isLandscape),
+              BuildButton(onclick: () => buttonPress('9'), text: '9', isLandscape: isLandscape),
+              BuildButton(onclick: () => buttonPress('*'), text: '×', color: operatorButtonColor, isLandscape: isLandscape),
+            ],
+          ),
+          Row(
+            children: [
+              BuildButton(onclick: () => buttonPress('4'), text: '4', isLandscape: isLandscape),
+              BuildButton(onclick: () => buttonPress('5'), text: '5', isLandscape: isLandscape),
+              BuildButton(onclick: () => buttonPress('6'), text: '6', isLandscape: isLandscape),
+              BuildButton(onclick: () => buttonPress('-'), text: '−', color: operatorButtonColor, isLandscape: isLandscape),
+            ],
+          ),
+          Row(
+            children: [
+              BuildButton(onclick: () => buttonPress('1'), text: '1', isLandscape: isLandscape),
+              BuildButton(onclick: () => buttonPress('2'), text: '2', isLandscape: isLandscape),
+              BuildButton(onclick: () => buttonPress('3'), text: '3', isLandscape: isLandscape),
+              BuildButton(onclick: () => buttonPress('+'), text: '+', color: operatorButtonColor, isLandscape: isLandscape),
+            ],
+          ),
+          Row(
+            children: [
+              BuildButton(onclick: () => buttonPress('%'), text: '%', color: funcButtonColor, isLandscape: isLandscape),
+              BuildButton(onclick: () => buttonPress('0'), text: '0', isLandscape: isLandscape),
+              BuildButton(onclick: () => buttonPress('.'), text: '.', color: funcButtonColor, isLandscape: isLandscape),
+              BuildButton(onclick: () => buttonPress('='), text: '=', color: equalButtonColor, isLandscape: isLandscape),
+            ],
+          ),
+        ],
+      );
+
+      final displayArea = Padding(
+        padding: const EdgeInsets.only(right: 5.0, top: 5.0),
         child: Column(
           children: [
             Row(
@@ -163,7 +208,7 @@ class _CalculatorState extends State<Calculator> {
                   icon: Icon(
                     Icons.history,
                     color: textColor,
-                    size: isLandscape ? 20 : 28,
+                    size: isLandscape ? 18 : 28,
                   ),
                   onPressed: () => buttonPress('history'),
                 ),
@@ -172,27 +217,24 @@ class _CalculatorState extends State<Calculator> {
                   icon: Icon(
                     isDarkMode ? Icons.wb_sunny : Icons.nightlight_round,
                     color: textColor,
+                    size: isLandscape ? 18 : 28,
                   ),
                   onPressed: widget.toggleTheme,
                 ),
               ],
             ),
-
             Expanded(
               child: _showHistory
                   ? Container(
                 alignment: Alignment.topRight,
-                padding: const EdgeInsets.all(20),
-                constraints: isLandscape
-                    ? BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.4)
-                    : null,
+                padding: const EdgeInsets.all(10),
                 child: ListView.builder(
                   reverse: true,
                   itemCount: _history.length,
                   itemBuilder: (context, index) {
                     final historyItem = _history[index];
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Text(
                         historyItem,
                         style: TextStyle(
@@ -205,74 +247,55 @@ class _CalculatorState extends State<Calculator> {
                   },
                 ),
               )
-                  : Container(
-                alignment: Alignment.bottomRight,
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      _output,
-                      style: TextStyle(
-                        fontSize: isLandscape ? 45 : 65,
-                        color: textColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  : Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(
+                    _output,
+                    style: TextStyle(
+                      fontSize: isLandscape ? 60 : 65,
+                      color: textColor,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
-
-            Column(
-              children: [
-                Row(
-                  children: [
-                    BuildButton(onclick: () => buttonPress('AC'), text: 'AC', color: funcButtonColor),
-
-                    BuildButton(onclick: () => buttonPress('back'), text: '', icon: Icons.backspace, color: funcButtonColor),
-
-                    BuildButton(onclick: () => buttonPress('+/-'), text: '+/-', color: funcButtonColor),
-                    BuildButton(onclick: () => buttonPress('÷'), text: '÷', color: operatorButtonColor),
-                  ],
-                ),
-                Row(
-                  children: [
-                    BuildButton(onclick: () => buttonPress('7'), text: '7'),
-                    BuildButton(onclick: () => buttonPress('8'), text: '8'),
-                    BuildButton(onclick: () => buttonPress('9'), text: '9'),
-                    BuildButton(onclick: () => buttonPress('*'), text: '×', color: operatorButtonColor),
-                  ],
-                ),
-                Row(
-                  children: [
-                    BuildButton(onclick: () => buttonPress('4'), text: '4'),
-                    BuildButton(onclick: () => buttonPress('5'), text: '5'),
-                    BuildButton(onclick: () => buttonPress('6'), text: '6'),
-                    BuildButton(onclick: () => buttonPress('-'), text: '−', color: operatorButtonColor),
-                  ],
-                ),
-                Row(
-                  children: [
-                    BuildButton(onclick: () => buttonPress('1'), text: '1'),
-                    BuildButton(onclick: () => buttonPress('2'), text: '2'),
-                    BuildButton(onclick: () => buttonPress('3'), text: '3'),
-                    BuildButton(onclick: () => buttonPress('+'), text: '+', color: operatorButtonColor),
-                  ],
-                ),
-                Row(
-                  children: [
-                    BuildButton(onclick: () => buttonPress('%'), text: '%', color: funcButtonColor),
-                    BuildButton(onclick: () => buttonPress('0'), text: '0'),
-                    BuildButton(onclick: () => buttonPress('.'), text: '.', color: funcButtonColor),
-                    BuildButton(onclick: () => buttonPress('='), text: '=', color: equalButtonColor),
-                  ],
-                ),
-              ],
-            ),
           ],
         ),
+      );
+
+      if (isLandscape) {
+        return Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: displayArea,
+            ),
+            Expanded(
+              flex: 2,
+              child: buttonGrid,
+            ),
+          ],
+        );
+      } else {
+        return Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: displayArea,
+            ),
+            buttonGrid,
+          ],
+        );
+      }
+    }
+
+    return Scaffold(
+      backgroundColor: bgColor,
+      body: SafeArea(
+        child: buildCalculatorLayout(),
       ),
     );
   }

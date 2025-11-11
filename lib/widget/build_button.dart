@@ -6,6 +6,7 @@ class BuildButton extends StatelessWidget {
   final Color? color;
   final VoidCallback onclick;
   final IconData? icon;
+  final bool isLandscape;
 
   const BuildButton({
     super.key,
@@ -13,6 +14,7 @@ class BuildButton extends StatelessWidget {
     required this.text,
     this.color,
     this.icon,
+    this.isLandscape = false,
   });
 
   @override
@@ -31,11 +33,9 @@ class BuildButton extends StatelessWidget {
         ? (isDarkMode ? Colors.white : Colors.black)
         : Colors.white);
 
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-
     double size;
     if (isLandscape) {
-      size = (MediaQuery.of(context).size.height) / 7.5;
+      size = (MediaQuery.of(context).size.height) / 6.2;
     } else {
       size = 75.w;
     }
